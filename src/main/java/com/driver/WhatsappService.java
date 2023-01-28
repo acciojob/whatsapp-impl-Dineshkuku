@@ -25,4 +25,7 @@ public class WhatsappService {
     public String changeAdmin(User approver, User sender, Group group) throws Exception{
         return whatsappRepository.changeAdmin(approver, sender, group);
     }
+//    public int removeUser(User user) throws Exception{
+//        return whatsappRepository.removeUser(user);
+//    }
 }

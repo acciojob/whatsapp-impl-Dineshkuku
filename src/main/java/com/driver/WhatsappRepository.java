@@ -42,7 +42,7 @@ public class WhatsappRepository {
     }
 
     public Group createGroup(List<User> users){
-        if(users.size()>=2){
+        if(users.size()>2){
             customGroupCount++;
             Group group = new Group("Group: " + customGroupCount, users.size());
             groupUserMap.put(group, users);
@@ -66,7 +66,7 @@ public class WhatsappRepository {
 
     public int sendMessage(Message message, User sender, Group group) throws Exception{
         if(!groupUserMap.containsKey(group)){
-            throw new Exception("Group doesn't exist");
+            throw new Exception("Group does not exist");
         }
         boolean flag = false;
         for (User user: groupUserMap.get(group)) {
@@ -76,7 +76,7 @@ public class WhatsappRepository {
             }
         }
         if(!flag){
-            throw new Exception("you are not allowed to send message");
+            throw new Exception("You are not allowed to send message");
         }
 
         senderMap.put(message, sender);
@@ -85,16 +85,16 @@ public class WhatsappRepository {
         groupMessageMap.put(group, list);
         return list.size();
     }
-    public String changeAdmin(User approver, User sender, Group group) throws Exception{
+    public String changeAdmin(User approver, User user, Group group) throws Exception{
         if(!groupUserMap.containsKey(group)){
-            throw new Exception("Group doesn't exist");
+            throw new Exception("Group does not exist");
         }
         if(adminMap.get(group)!=approver){
-            throw new Exception("Approver is not the admin");
+            throw new Exception("Approver does not have rights");
         }
         boolean flag = false;
         for(User u: groupUserMap.get(group)){
-            if(sender.getMobile().equals(u.getMobile())){
+            if(user.getMobile().equals(u.getMobile())){
                 flag = true;
                 break;
             }
@@ -102,7 +102,7 @@ public class WhatsappRepository {
         if(!flag){
             throw new Exception("user is not a part of a group");
         }
-        adminMap.put(group,sender);
+        adminMap.put(group,user);
         return "SUCCESS";
     }
 }
